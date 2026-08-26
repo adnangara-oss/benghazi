@@ -1,0 +1,729 @@
+:root{
+  --bg:#0a0908;
+  --bg-alt:#100e0c;
+  --fg:#f2ece0;          /* warm cream — the video's headline colour */
+  --muted:#9c9384;
+  --accent:#c9a24b;      /* used sparingly: eyebrows, rules, hovers only */
+  --border:rgba(242,236,224,.13);
+  --serif:'Playfair Display', serif;
+  --sans:'Inter', sans-serif;
+  --script:'Caveat', cursive;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --ease-soft:cubic-bezier(.4,0,.2,1);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:4rem}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:var(--sans);font-weight:300;line-height:1.6;
+  overflow-x:hidden;
+}
+body.lightbox-open{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{font-family:var(--serif);font-weight:400}
+
+.eyebrow{
+  display:block;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:1.1rem;
+}
+.script-line{font-family:var(--script);font-size:1.45rem;color:var(--fg);opacity:.9}
+
+/* ---------- Grain ---------- */
+.grain{
+  position:fixed;inset:-20%;z-index:9998;pointer-events:none;
+  opacity:.1;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  animation:grain 7s steps(9) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-3%,-4%)}20%{transform:translate(-8%,2%)}
+  30%{transform:translate(4%,-6%)}40%{transform:translate(-2%,7%)}50%{transform:translate(-6%,3%)}
+  60%{transform:translate(6%,0)}70%{transform:translate(0,6%)}80%{transform:translate(2%,-3%)}90%{transform:translate(-4%,2%)}
+}
+
+/* ---------- Cursor ---------- */
+.cursor-dot,.cursor-ring{
+  position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;
+  opacity:0;transform:translate(-50%,-50%);mix-blend-mode:difference;
+}
+.cursor-dot{width:5px;height:5px;background:var(--fg)}
+.cursor-ring{
+  width:34px;height:34px;border:1px solid rgba(242,236,224,.5);
+  transition:width .35s var(--ease),height .35s var(--ease),background .35s var(--ease),border-color .35s var(--ease);
+}
+body.cursor-active .cursor-dot,body.cursor-active .cursor-ring{opacity:1}
+body.cursor-hover .cursor-ring{width:60px;height:60px;background:rgba(242,236,224,.12);border-color:rgba(242,236,224,.75)}
+body.cursor-hover .cursor-dot{opacity:0}
+@media (pointer:coarse){.cursor-dot,.cursor-ring{display:none}}
+
+/* ---------- Preloader ---------- */
+.preloader{position:fixed;inset:0;z-index:10000;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.preloader-inner{display:flex;flex-direction:column;align-items:center;gap:.7rem;text-align:center;padding:0 1.5rem}
+.preloader-mark{font-family:var(--serif);font-size:clamp(1.5rem,5vw,2.2rem);letter-spacing:.42em;text-indent:.42em}
+.preloader-tag{font-family:var(--script);font-size:1.1rem;color:var(--muted)}
+.preloader-bar{width:min(260px,58vw);height:1px;background:var(--border);margin-top:1.2rem;overflow:hidden}
+.preloader-bar span{display:block;width:0;height:100%;background:var(--accent)}
+.preloader-count{font-family:var(--serif);font-size:.8rem;color:var(--muted);letter-spacing:.2em}
+.preloader-curtain{position:absolute;inset:0;background:var(--bg-alt);transform:translateY(100%)}
+
+/* ---------- Nav — vertical stack, top-right ---------- */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:1.5rem clamp(1.3rem,4vw,3rem);
+  display:flex;align-items:flex-start;justify-content:space-between;
+  transition:background .4s var(--ease),backdrop-filter .4s var(--ease);
+  pointer-events:none;
+}
+.nav > *{pointer-events:auto}
+.nav.scrolled{background:linear-gradient(180deg,rgba(10,9,8,.85),transparent);backdrop-filter:blur(6px)}
+.nav-logo{font-family:var(--serif);font-size:1.15rem;letter-spacing:.14em}
+
+/* the video's signature: four items stacked vertically, tiny caps, each ending in a period */
+.nav-links{
+  display:flex;flex-direction:column;gap:.28rem;
+  margin-left:auto;margin-right:clamp(2rem,10vw,9rem);
+}
+.nav-links a{
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--fg);opacity:.62;position:relative;width:max-content;
+  transition:opacity .3s var(--ease),color .3s var(--ease);
+}
+.nav-links a::after{
+  content:'';position:absolute;left:0;bottom:-2px;width:0;height:1px;background:var(--accent);
+  transition:width .4s var(--ease);
+}
+.nav-links a:hover{opacity:1}
+.nav-links a:hover::after{width:100%}
+.nav-links a.is-active{opacity:1;color:var(--accent)}
+.nav-links a.is-active::after{width:100%}
+
+.nav-explore{
+  display:flex;align-items:center;gap:.5rem;
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--fg);opacity:.8;
+  padding-bottom:.3rem;border-bottom:1px solid var(--border);
+  transition:opacity .3s var(--ease),border-color .3s var(--ease);
+}
+.nav-explore:hover{opacity:1;border-color:var(--accent)}
+.nav-explore-mark{width:5px;height:5px;border-radius:50%;background:var(--accent);flex:none}
+
+.nav-burger{display:none;flex-direction:column;gap:5px;background:none;border:0;cursor:pointer;padding:.4rem}
+.nav-burger span{width:20px;height:1px;background:var(--fg);transition:transform .35s var(--ease),opacity .25s var(--ease)}
+.nav.nav-open .nav-burger span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav.nav-open .nav-burger span:nth-child(2){opacity:0}
+.nav.nav-open .nav-burger span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ---------- HERO ---------- */
+.hero{position:relative;height:100svh;min-height:600px;overflow:hidden}
+.hero-slides{position:absolute;inset:-8% -4%;will-change:transform}
+/* The base copy is dimmed and drained of colour; the copy inside the reveal window
+   is left untouched, so the window reads as a bright cut-out of the same photo. */
+#heroSlides{filter:brightness(.4) saturate(.45)}
+.hero-slide{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  opacity:0;transform:scale(1.05);transition:opacity 1.7s var(--ease-soft);
+}
+.hero-slide.is-active{opacity:1;animation:kenburns 13s ease-out forwards}
+@keyframes kenburns{from{transform:scale(1.05)}to{transform:scale(1.16) translate3d(-1.3%,-1%,0)}}
+.hero-overlay{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(90% 60% at 50% 42%, rgba(10,9,8,0) 0%, rgba(10,9,8,.45) 100%),
+    linear-gradient(180deg, rgba(10,9,8,.4) 0%, rgba(10,9,8,0) 40%, rgba(10,9,8,.82) 100%);
+}
+
+/* Cursor reveal window — the video's key hero move.
+   .hero-reveal holds a pixel-identical copy of the slides that sits ABOVE the dark
+   overlay, so whatever the clip-path exposes reads bright while the rest stays dim. */
+.hero-reveal{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  clip-path:inset(50% 50% 50% 50%);
+  will-change:clip-path;
+}
+.hero-frame{
+  position:absolute;top:0;left:0;z-index:3;pointer-events:none;
+  border:1px solid rgba(242,236,224,.42);
+  box-shadow:0 0 0 1px rgba(10,9,8,.35), 0 30px 70px -30px rgba(0,0,0,.8);
+  will-change:transform;opacity:0;
+}
+.hero-frame-label{
+  position:absolute;left:0;right:0;bottom:-1.6rem;text-align:center;
+  font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:var(--fg);opacity:.78;
+  white-space:nowrap;
+}
+
+/* headline: two stacked lines per side, tight leading, cream — not gold */
+.hero-head{
+  position:absolute;inset:0;z-index:3;pointer-events:none;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(1.3rem,4vw,3.5rem);
+}
+.hero-title{
+  position:relative;
+  font-size:clamp(2.3rem,6.6vw,5.3rem);
+  line-height:.86;                 /* the video's lines nearly touch */
+  letter-spacing:-.015em;
+  color:var(--fg);
+  font-style:italic;
+}
+.hero-title .line{display:block;overflow:hidden}
+.hero-title .line span.word{display:inline-block;will-change:transform,opacity}
+.hero-title-left{text-align:left}
+.hero-title-left .line:nth-of-type(3){padding-left:.9em}   /* "Places" indented, as in the video */
+.hero-title-right{text-align:right}
+.hero-title-right .line:nth-of-type(2){padding-right:.9em} /* "Into" indented */
+
+/* ghost copy sitting behind, drifts at a different speed on scroll */
+.hero-title .ghost{
+  position:absolute;top:0;left:0;right:0;
+  opacity:.24;pointer-events:none;will-change:transform;
+}
+.hero-title-right .ghost{text-align:right}
+/* .line clips its own overflow, which shifts where the glyphs land at this tight
+   leading — the ghost has to clip identically or it sits offset at rest. */
+.hero-title .ghost span{display:block;overflow:hidden}
+.hero-title-left .ghost span:last-child{padding-left:.9em}
+.hero-title-right .ghost span:first-child{padding-right:.9em}
+
+.hero-index{
+  position:absolute;left:clamp(1.3rem,4vw,3.5rem);bottom:2.2rem;z-index:3;
+  font-family:var(--serif);font-size:.85rem;letter-spacing:.2em;color:var(--fg);opacity:.55;
+}
+.hero-destlist{
+  position:absolute;right:clamp(1.3rem,4vw,3.5rem);bottom:2.2rem;z-index:3;
+  list-style:none;text-align:right;
+}
+.hero-destlist li{
+  font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--fg);opacity:.5;line-height:1.9;
+}
+.hero-destlist li.is-head{opacity:.9;position:relative;padding-right:.9rem}
+.hero-destlist li.is-head::after{
+  content:'';position:absolute;right:0;top:50%;width:5px;height:5px;border-radius:50%;
+  background:var(--accent);transform:translateY(-50%);
+}
+.hero-dots{position:absolute;left:50%;transform:translateX(-50%);bottom:2.2rem;z-index:3;display:flex;gap:.45rem}
+.hero-dots button{
+  width:22px;height:2px;border:0;padding:0;background:rgba(242,236,224,.25);cursor:pointer;
+  transition:background .4s var(--ease),width .4s var(--ease);
+}
+.hero-dots button[aria-selected="true"]{background:var(--accent);width:38px}
+
+/* ---------- Marquee ---------- */
+.marquee{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:1rem 0;background:var(--bg-alt)}
+.marquee-track{display:flex;width:max-content;animation:marquee 38s linear infinite}
+.marquee-track span{font-family:var(--serif);font-style:italic;font-size:1.05rem;color:var(--muted);white-space:nowrap}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ---------- DESTINATIONS — scattered collage on black ---------- */
+.destinations{
+  position:relative;background:#000;
+  padding:6.5rem 1.2rem 5rem;
+}
+.dest-side{display:none}
+
+.collage-title{
+  text-align:center;margin:0 auto 3.2rem;
+  font-size:clamp(1.9rem,4.6vw,3.6rem);line-height:.94;font-style:italic;
+  text-shadow:0 8px 40px rgba(0,0,0,.85);
+}
+.collage-title span{display:block;overflow:hidden}
+.collage-title span:last-child{padding-left:1.1em}
+.collage-title span span.word{display:inline-block}
+
+.collage{
+  margin:0 auto;width:100%;max-width:2200px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  align-items:start;
+  gap:1.6rem 1rem;
+}
+.collage .polaroid{
+  /* Scatter offset lives on margin, not transform — GSAP owns the transform's
+     translate axis for the reveal animation and silently drops anything else
+     placed there (its y-tween replaces the whole translate, not adds to it). */
+  position:static;width:100%;margin:var(--ty, 0) 0 0 var(--tx, 0);
+  background:#fdfcf9;padding:.42rem .42rem 1.9rem;border-radius:2px;
+  box-shadow:0 22px 44px -16px rgba(0,0,0,.85);
+  transform:rotate(var(--r)) scale(var(--d));
+  transition:box-shadow .5s var(--ease);
+  cursor:pointer;
+}
+.collage .polaroid img{aspect-ratio:4/5;object-fit:cover;filter:grayscale(.1) contrast(1.03)}
+.collage .polaroid p{
+  font-family:var(--serif);font-style:italic;color:#1a1712;text-align:center;
+  margin-top:.4rem;font-size:.62rem;
+}
+.collage .polaroid:hover{box-shadow:0 34px 66px -18px rgba(0,0,0,.95);z-index:6}
+.collage .polaroid:focus-visible{outline:2px solid var(--accent);outline-offset:5px;z-index:6}
+
+/* ---------- Stats ---------- */
+.stats{
+  background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:clamp(2.4rem,5vw,3.4rem) clamp(1.3rem,4vw,3.5rem);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1.4rem;
+}
+.stat{text-align:center;position:relative}
+.stat + .stat::before{content:'';position:absolute;left:0;top:15%;bottom:15%;width:1px;background:var(--border)}
+.stat-num{display:block;font-family:var(--serif);font-size:clamp(1.7rem,3.4vw,2.5rem);color:var(--accent)}
+.stat-label{display:block;margin-top:.35rem;font-size:.56rem;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+
+/* ---------- STORY — centred, paper collage ---------- */
+.story{
+  position:relative;overflow:hidden;
+  padding:clamp(5rem,11vw,9rem) clamp(1.3rem,4vw,3.5rem) clamp(4rem,8vw,7rem);
+  display:flex;flex-direction:column;align-items:center;
+  min-height:100svh;justify-content:center;
+}
+.story-bg{position:absolute;inset:-10% 0;background-size:cover;background-position:center;will-change:transform}
+.story-veil{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(75% 55% at 50% 50%, rgba(10,9,8,.55) 0%, rgba(10,9,8,.88) 100%),
+    linear-gradient(180deg,rgba(10,9,8,.9),rgba(10,9,8,.68) 45%,rgba(10,9,8,.95));
+}
+.story-title,.story-stage,.story-script,.story-map-wrap{position:relative;z-index:2}
+.story-title{
+  text-align:center;font-size:clamp(1.8rem,4.4vw,3.3rem);line-height:.94;font-style:italic;
+  margin-bottom:clamp(2rem,5vw,3.4rem);
+}
+.story-title span{display:block;overflow:hidden}
+.story-title span:last-child{padding-left:.9em}
+.story-title span span.word{display:inline-block}
+
+.story-stage{
+  display:grid;grid-template-columns:1fr 1fr;align-items:start;
+  gap:clamp(1.5rem,5vw,4.5rem);width:100%;max-width:1180px;
+}
+.story-aside{
+  font-size:.64rem;letter-spacing:.16em;text-transform:uppercase;line-height:2;color:var(--fg);opacity:.82;max-width:24ch;
+}
+.story-aside-left{text-align:right;justify-self:end}
+.story-aside-right{text-align:left;justify-self:start}
+
+/* Full-bleed real map banner — Libya, zoomed to Benghazi, recoloured with a
+   CSS filter (OSM's embed has no dark theme of its own) to sit inside the
+   site's dark palette instead of a jarring white/green tile default. */
+.story-map-wrap{
+  position:relative;
+  width:100vw;margin:clamp(2.4rem,5vw,3.6rem) calc(50% - 50vw) 0;
+  height:clamp(280px,34vw,460px);
+  background:#0a0f0d;
+}
+.story-map{
+  display:block;width:100%;height:100%;border:0;
+  filter:grayscale(.25) invert(92%) hue-rotate(180deg) brightness(.95) contrast(.92);
+}
+.story-map-caption{
+  position:absolute;left:1.4rem;bottom:1.1rem;
+  font-family:var(--serif);font-style:italic;font-size:.8rem;color:var(--fg);
+  background:rgba(10,9,8,.55);padding:.3rem .7rem;border-radius:2px;
+  pointer-events:none;
+}
+html[lang="ar"] .story-map-caption{font-family:var(--ar-display);font-style:normal}
+
+.story-script{
+  margin-top:clamp(1.8rem,4vw,3rem);text-align:center;
+  font-family:var(--script);font-size:clamp(1.25rem,2.4vw,1.75rem);color:var(--fg);opacity:.92;
+}
+
+/* ---------- HOW WE TRAVEL — full-height panels, title over ---------- */
+.travel{position:relative;background:var(--bg)}
+.travel-head{
+  position:absolute;top:clamp(3.5rem,9vw,7rem);left:0;right:0;z-index:3;
+  text-align:center;pointer-events:none;
+}
+.travel-head h2{
+  font-size:clamp(1.9rem,4.4vw,3.4rem);font-style:italic;
+  text-shadow:0 6px 34px rgba(0,0,0,.8);
+}
+.travel-head h2 span.word{display:inline-block}
+.travel-head .script-line{margin-top:.5rem;text-shadow:0 4px 20px rgba(0,0,0,.8)}
+
+.travel-panels{display:flex;height:100svh;min-height:600px}
+.travel-panel{
+  flex:1;position:relative;overflow:hidden;
+  background-size:cover;background-position:center;
+  transition:flex .7s var(--ease);
+}
+.travel-panel::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.15) 38%,rgba(0,0,0,.85) 100%);
+  transition:background .6s var(--ease);
+}
+.travel-panel + .travel-panel{border-left:1px solid rgba(0,0,0,.5)}
+.travel-panel-no{
+  position:absolute;top:1.1rem;left:1.1rem;z-index:2;
+  font-size:.56rem;letter-spacing:.24em;color:var(--fg);opacity:.55;
+}
+.travel-panel-label{position:absolute;left:1.3rem;right:1.3rem;bottom:1.6rem;z-index:2}
+.travel-panel-label em{
+  display:block;font-family:var(--serif);font-style:italic;font-size:1.15rem;color:var(--fg);
+}
+.travel-panel-label span{
+  display:block;margin-top:.45rem;max-width:26ch;
+  font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;line-height:1.9;
+  color:var(--fg);opacity:0;transform:translateY(8px);
+  transition:opacity .5s var(--ease),transform .5s var(--ease);
+}
+.travel-panels:hover .travel-panel{flex:.72}
+.travel-panels .travel-panel:hover{flex:2.1}
+.travel-panel:hover::after{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.05) 40%,rgba(0,0,0,.8) 100%)}
+.travel-panel:hover .travel-panel-label span{opacity:.85;transform:translateY(0)}
+
+/* ---------- VOICES ---------- */
+.voices{background:var(--bg-alt);padding:clamp(4.5rem,9vw,7.5rem) clamp(1.3rem,4vw,3.5rem)}
+.voices-title{font-size:clamp(1.8rem,4vw,3rem);font-style:italic;margin-bottom:2.6rem}
+.quotes{position:relative;min-height:clamp(160px,20vw,220px);max-width:60ch}
+.quote{
+  position:absolute;inset:0;opacity:0;transform:translateY(14px);pointer-events:none;
+  transition:opacity .6s var(--ease),transform .6s var(--ease);
+}
+.quote.is-active{opacity:1;transform:none;pointer-events:auto}
+.quote p{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.1vw,1.55rem);line-height:1.55}
+.quote cite{
+  display:block;margin-top:1.2rem;font-style:normal;
+  font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);
+}
+.quote cite strong{color:var(--fg);font-weight:400}
+.quotes-ui{display:flex;align-items:center;gap:1.1rem;margin-top:2rem}
+.quotes-count{font-family:var(--serif);font-size:.78rem;letter-spacing:.18em;color:var(--muted)}
+.slider-btn{
+  width:42px;height:42px;border-radius:50%;border:1px solid var(--border);
+  background:transparent;color:var(--fg);cursor:pointer;display:grid;place-items:center;
+  transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease);
+}
+.slider-btn:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+
+/* ---------- PLAN A JOURNEY ---------- */
+.plan{
+  position:relative;overflow:hidden;
+  padding:clamp(4.5rem,9vw,7.5rem) clamp(1.3rem,4vw,3.5rem) clamp(3rem,6vw,5rem);
+  background:#efeade;color:#14120f;
+}
+.plan-bg{
+  position:absolute;left:0;right:0;bottom:0;height:62%;
+  background-size:cover;background-position:center;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 55%);
+  mask-image:linear-gradient(180deg,transparent,#000 55%);
+  opacity:.32;
+}
+/* The photo can be arbitrarily bright, so wash it back toward the section colour —
+   the footer text sits on top of it and has to stay legible whatever the image is. */
+.plan-bg::after{content:'';position:absolute;inset:0;background:rgba(239,234,222,.55)}
+.plan-title,.note,.plan-foot{position:relative;z-index:2}
+.plan-title{text-align:center;font-size:clamp(1.9rem,4.4vw,3.2rem);font-style:italic;margin-bottom:2.6rem}
+
+.note{
+  position:relative;background:#fff;max-width:400px;margin:0 auto;
+  padding:2.2rem 1.8rem 1.8rem;transform:rotate(-1.2deg);
+  box-shadow:0 34px 60px -26px rgba(0,0,0,.42);
+}
+.note-pin{
+  position:absolute;top:-9px;left:50%;transform:translateX(-50%);
+  width:15px;height:15px;border-radius:50%;background:#d0392b;
+  box-shadow:0 3px 7px rgba(0,0,0,.4), inset -2px -2px 4px rgba(0,0,0,.2);
+}
+.note-intro{
+  font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;line-height:2;
+  text-align:center;color:#6b6255;margin-bottom:1.4rem;
+}
+.note-form{display:flex;flex-direction:column;gap:1rem}
+.note-form[hidden]{display:none}
+.note-form label{display:flex;flex-direction:column;gap:.35rem;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:#8c8271}
+.note-form input{
+  border:0;border-bottom:1px solid #d8d2c4;padding:.45rem 0;background:transparent;
+  font-family:var(--sans);font-size:.9rem;color:#14120f;
+}
+.note-form input:focus{outline:none;border-color:#14120f}
+.note-form button{
+  margin-top:.5rem;background:#14120f;color:#f2ece0;border:0;padding:.8rem;
+  font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;cursor:pointer;
+  transition:background .3s var(--ease),color .3s var(--ease);
+}
+.note-form button:hover{background:var(--accent);color:#14120f}
+.note-success{text-align:center;font-size:.85rem;color:#2e7d32}
+
+/* footer columns inside the plan section, as in the video */
+.plan-foot{
+  display:grid;grid-template-columns:repeat(3,auto) 1fr;gap:clamp(1.5rem,4vw,3.5rem);
+  margin-top:clamp(3.5rem,8vw,6rem);padding-top:2.2rem;border-top:1px solid rgba(20,18,15,.16);
+}
+.foot-col{display:flex;flex-direction:column;gap:.5rem}
+.foot-col h3{
+  font-family:var(--sans);font-weight:500;font-size:.58rem;letter-spacing:.24em;
+  text-transform:uppercase;color:#14120f;margin-bottom:.35rem;
+}
+.foot-col a{font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:#514a3f;transition:color .3s var(--ease)}
+.foot-col a:hover{color:#14120f}
+.foot-news{justify-self:end;max-width:30ch;text-align:right}
+.foot-news p{font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;line-height:2;color:#514a3f;margin-bottom:.9rem}
+.news-form{display:flex;gap:.6rem;align-items:flex-end}
+.news-form input{
+  flex:1;border:0;border-bottom:1px solid rgba(20,18,15,.28);background:transparent;
+  padding:.35rem 0;font-family:var(--sans);font-size:.8rem;color:#14120f;
+}
+.news-form input:focus{outline:none;border-color:#14120f}
+.news-form button{background:none;border:0;font-size:1.1rem;color:#14120f;cursor:pointer;line-height:1;padding:0 .2rem}
+.news-done{font-size:.7rem;color:#2e7d32}
+
+/* ---------- Footer ---------- */
+.footer{
+  background:var(--bg);padding:2.6rem clamp(1.3rem,4vw,3.5rem);
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  border-top:1px solid var(--border);color:var(--muted);font-size:.62rem;letter-spacing:.14em;
+}
+.footer-social{display:flex;align-items:center;gap:.55rem;font-family:var(--serif);letter-spacing:.1em;color:var(--fg);font-size:.9rem}
+.footer-credit{opacity:.7}
+.nav-flag{width:1.05em;height:.7em;margin-inline-start:.4rem;vertical-align:.05em;border-radius:1px;box-shadow:0 0 0 1px rgba(242,236,224,.15)}
+
+/* ---------- Lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:9997;display:flex;align-items:center;justify-content:center;
+  padding:clamp(1.5rem,6vw,4rem);background:rgba(6,5,4,.95);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .3s var(--ease),visibility 0s linear .3s;
+}
+.lightbox.is-open{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .4s var(--ease),visibility 0s}
+.lightbox-figure{max-width:min(92vw,1080px);display:flex;flex-direction:column;align-items:center;gap:1rem}
+.lightbox-figure img{max-width:100%;max-height:76vh;width:auto;object-fit:contain;box-shadow:0 50px 90px -30px rgba(0,0,0,.8)}
+.lightbox-figure figcaption{text-align:center}
+#lightboxTitle{display:block;font-family:var(--serif);font-style:italic;font-size:1.4rem;color:var(--fg)}
+.lightbox-count{display:block;margin-top:.5rem;font-size:.6rem;letter-spacing:.22em;color:var(--muted)}
+.lightbox-close,.lightbox-arrow{
+  position:fixed;width:46px;height:46px;border-radius:50%;
+  border:1px solid var(--border);background:rgba(10,9,8,.5);color:var(--fg);
+  display:grid;place-items:center;cursor:pointer;
+  transition:background .3s var(--ease),color .3s var(--ease),border-color .3s var(--ease);
+}
+.lightbox-close:hover,.lightbox-arrow:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.lightbox-close{top:clamp(1.2rem,4vw,2.4rem);right:clamp(1.2rem,4vw,2.4rem)}
+.lightbox-arrow{top:50%;transform:translateY(-50%)}
+.lightbox-prev{left:clamp(1rem,3vw,2.4rem)}
+.lightbox-next{right:clamp(1rem,3vw,2.4rem)}
+
+/* ---------- Reveal base ---------- */
+[data-reveal]{opacity:0}
+.no-gsap [data-reveal]{opacity:1}
+
+a:focus-visible,button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* ---------- Responsive ---------- */
+@media (max-width:860px){
+  .nav-links,.nav-explore{display:none}
+  .nav-burger{display:flex}
+  .nav.nav-open .nav-links{
+    display:flex;position:fixed;inset:0;background:var(--bg);
+    align-items:center;justify-content:center;gap:1.6rem;margin:0;
+  }
+  .nav.nav-open .nav-links a{font-size:.9rem}
+
+  .hero-head{flex-direction:column;justify-content:center;gap:.4rem;text-align:center}
+  .hero-title-left,.hero-title-right{text-align:center}
+  .hero-title-left .line:nth-of-type(3),.hero-title-right .line:nth-of-type(2){padding:0}
+  .hero-title .ghost{display:none}
+  .hero-reveal,.hero-frame{display:none}
+  .hero-destlist{display:none}
+
+  .destinations{padding:4.5rem 1.2rem}
+  .collage{grid-template-columns:repeat(2,1fr);gap:1.4rem 1rem}
+  .collage-title{margin-bottom:2rem}
+  .collage-title span:last-child{padding-left:0}
+
+  .story-stage{grid-template-columns:1fr;gap:1rem;justify-items:center}
+  .story-aside-left,.story-aside-right{text-align:center;justify-self:center;max-width:34ch}
+  .story-map-wrap{height:60vw}
+
+  .travel-panels{flex-direction:column;height:auto}
+  .travel-panel{height:44vh;min-height:260px}
+  .travel-panels:hover .travel-panel,.travel-panels .travel-panel:hover{flex:1}
+  .travel-panel-label span{opacity:.8;transform:none}
+  .travel-head{position:static;padding:3.5rem 1.2rem 1.5rem;text-align:center}
+
+  .stats{grid-template-columns:repeat(2,1fr);gap:2rem 1rem}
+  .stat:nth-child(3)::before{display:none}
+
+  .plan-foot{grid-template-columns:repeat(2,1fr)}
+  .foot-news{grid-column:1/-1;justify-self:start;text-align:left;max-width:none}
+}
+@media (max-width:640px){
+  .lightbox-arrow{width:38px;height:38px}
+  .lightbox-prev{left:.5rem}
+  .lightbox-next{right:.5rem}
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .marquee-track,.grain{animation:none}
+  .hero-slide.is-active{animation:none}
+  [data-reveal]{opacity:1}
+  .hero-slides,.story-bg{transform:none !important}
+  .hero-title .ghost{display:none}
+}
+
+/* =========================================================
+   BENGHAZI — Arabic typography, placeholders, new sections
+   ========================================================= */
+:root{
+  --ar-display:'Amiri', 'Playfair Display', serif;
+  --ar-body:'IBM Plex Sans Arabic', 'Inter', sans-serif;
+}
+html[lang="ar"] body{font-family:var(--ar-body);font-weight:400}
+html[lang="ar"] h1,html[lang="ar"] h2,html[lang="ar"] h3{font-family:var(--ar-display)}
+html[lang="ar"] .hero-title{font-style:normal;line-height:1.06;letter-spacing:0}
+html[lang="ar"] .collage-title,
+html[lang="ar"] .story-title,
+html[lang="ar"] .travel-head h2,
+html[lang="ar"] .voices-title,
+html[lang="ar"] .plan-title{font-style:normal;line-height:1.24}
+html[lang="ar"] .polaroid p{font-family:var(--ar-display);font-style:normal;font-size:.8rem}
+html[lang="ar"] .polaroid-meta{letter-spacing:.06em;font-size:.68rem}
+html[lang="ar"] .quote p{font-family:var(--ar-display);font-style:normal;line-height:1.7}
+html[lang="ar"] .script-line,
+html[lang="ar"] .story-script{font-family:var(--ar-display);font-size:1.3rem}
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .stat-label,
+html[lang="ar"] .story-aside,
+html[lang="ar"] .travel-panel-label span,
+html[lang="ar"] .nav-links a,
+html[lang="ar"] .nav-explore,
+html[lang="ar"] .hero-destlist li,
+html[lang="ar"] .dest-side li,
+html[lang="ar"] .foot-col a,
+html[lang="ar"] .foot-news p,
+html[lang="ar"] .note-intro,
+html[lang="ar"] .note-form label span{letter-spacing:.02em;text-transform:none}
+html[lang="ar"] .story-aside{font-size:.82rem;line-height:1.95}
+html[lang="ar"] .travel-panel-label em{font-family:var(--ar-display);font-style:normal}
+
+/* ---------- language toggle ---------- */
+.nav-right{display:flex;align-items:center;gap:1.4rem}
+.lang-toggle{
+  display:flex;align-items:center;gap:.35rem;background:none;border:0;cursor:pointer;
+  font-family:var(--sans);font-size:.62rem;letter-spacing:.16em;color:var(--fg);
+  padding:.3rem 0;border-bottom:1px solid var(--border);
+  transition:border-color .3s var(--ease);
+}
+.lang-toggle:hover{border-color:var(--accent)}
+.lang-opt{opacity:.42;transition:opacity .3s var(--ease),color .3s var(--ease)}
+.lang-opt.is-on{opacity:1;color:var(--accent)}
+.lang-sep{opacity:.3}
+
+/* ---------- image placeholders (no photos yet) ---------- */
+/* No `position` here on purpose: .ph is added alongside .hero-slide / .story-bg /
+   .plan-bg, which are absolutely positioned, and a position of its own would win
+   the cascade and collapse them. Only the plain <span> placeholders need it. */
+.ph{
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.05) 0%, rgba(255,255,255,0) 55%),
+    var(--ph, #1d2a30);
+}
+.ph::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(242,236,224,.05) 1px, transparent 1px),
+    linear-gradient(115deg, rgba(255,255,255,.07) 0 42%, transparent 42%);
+  background-size:100% 9px, 100% 100%;
+}
+.ph-1{--ph:#3d5560}.ph-2{--ph:#42574f}.ph-3{--ph:#57503c}.ph-4{--ph:#3a4759}
+.ph-5{--ph:#35474f}.ph-6{--ph:#3f544e}.ph-7{--ph:#39505e}.ph-8{--ph:#524d3e}
+.ph-9{--ph:#3b5158}.ph-10{--ph:#425448}
+
+.lightbox-photo{display:block;width:min(70vw,620px);aspect-ratio:4/5;
+  object-fit:cover;filter:grayscale(.1) contrast(1.03);
+  box-shadow:0 50px 90px -30px rgba(0,0,0,.8)}
+
+/* ---------- A — Layers ---------- */
+.layers{
+  background:var(--bg);
+  padding:clamp(4.5rem,9vw,7.5rem) clamp(1.3rem,4vw,3.5rem);
+}
+.layers-head{max-width:60ch;margin-bottom:clamp(2.4rem,5vw,3.6rem)}
+.layers-head h2{font-size:clamp(1.8rem,4vw,3rem);font-style:italic}
+.layers-head .script-line{margin-top:.6rem}
+.layer-list{list-style:none;counter-reset:layer;border-top:1px solid var(--border)}
+.layer{
+  display:grid;grid-template-columns:minmax(120px,.7fr) minmax(140px,1fr) 2fr;
+  gap:1rem clamp(1rem,3vw,2.5rem);align-items:baseline;
+  padding:1.5rem 0;border-bottom:1px solid var(--border);
+  transition:background .4s var(--ease);
+}
+.layer:hover{background:rgba(242,236,224,.03)}
+.layer-era{
+  font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);
+}
+.layer-name{
+  font-family:var(--serif);font-style:italic;font-size:clamp(1.15rem,2.3vw,1.7rem);color:var(--fg);
+}
+html[lang="ar"] .layer-name{font-family:var(--ar-display);font-style:normal}
+.layer-note{font-size:.84rem;color:var(--muted);line-height:1.8}
+@media (max-width:760px){
+  .layer{grid-template-columns:1fr;gap:.3rem;padding:1.2rem 0}
+}
+
+/* ---------- Arabic text direction ----------
+   The layout stays LTR (nav right, split headline, collage), but every run of
+   Arabic *text* must still read right-to-left — otherwise the word-splitter lays
+   the words out left-to-right and the sentence comes out reversed. So: rtl on the
+   text-bearing elements only, never on the layout containers. */
+html[lang="ar"] .hero-title .line,
+html[lang="ar"] .hero-title .ghost span,
+html[lang="ar"] .collage-title span,
+html[lang="ar"] .story-title span,
+html[lang="ar"] .story-aside,
+html[lang="ar"] .story-script,
+html[lang="ar"] .travel-head h2,
+html[lang="ar"] .travel-head .script-line,
+html[lang="ar"] .travel-panel-label em,
+html[lang="ar"] .travel-panel-label span,
+html[lang="ar"] .polaroid p,
+html[lang="ar"] .polaroid-meta,
+html[lang="ar"] .layers-head h2,
+html[lang="ar"] .layers-head .script-line,
+html[lang="ar"] .layer-era,
+html[lang="ar"] .layer-name,
+html[lang="ar"] .layer-note,
+html[lang="ar"] .voices-title,
+html[lang="ar"] .quote p,
+html[lang="ar"] .plan-title,
+html[lang="ar"] .note-intro,
+html[lang="ar"] .note-form label span,
+html[lang="ar"] .note-form input,
+html[lang="ar"] .note-success,
+html[lang="ar"] .foot-col h3,
+html[lang="ar"] .foot-col a,
+html[lang="ar"] .foot-news p,
+html[lang="ar"] .news-form input,
+html[lang="ar"] .stat-label,
+html[lang="ar"] .nav-links a,
+html[lang="ar"] .nav-explore span,
+html[lang="ar"] .hero-destlist li,
+html[lang="ar"] .dest-side li,
+html[lang="ar"] .hero-frame-label,
+html[lang="ar"] .preloader-tag,
+html[lang="ar"] .marquee-track span,
+html[lang="ar"] .eyebrow,
+html[lang="ar"] .footer p{direction:rtl}
+
+/* indents have to follow the reading direction, not a fixed side */
+.hero-title-left .line:nth-of-type(3){padding-left:0;padding-inline-start:.9em}
+.hero-title-right .line:nth-of-type(2){padding-right:0;padding-inline-end:.9em}
+.hero-title-left .ghost span:last-child{padding-left:0;padding-inline-start:.9em}
+.hero-title-right .ghost span:first-child{padding-right:0;padding-inline-end:.9em}
+.collage-title span:last-child{padding-left:0;padding-inline-start:1.1em}
+.story-title span:last-child{padding-left:0;padding-inline-start:.9em}
+
+/* in Arabic the row reads right-to-left: era first (rightmost), then name, then note */
+html[lang="ar"] .layer{direction:rtl}
+html[lang="ar"] .layer > *{text-align:right}
+
+/* Text-block sections flow right-to-left in Arabic so the heading, the body and the
+   controls all hang off the same edge. The signature layout pieces — the split hero,
+   the collage, the panel row, the nav — deliberately stay LTR. */
+html[lang="ar"] .voices,
+html[lang="ar"] .layers{direction:rtl}
+html[lang="ar"] .voices .quotes-ui{flex-direction:row}
+html[lang="ar"] .quote cite{direction:rtl}
+html[lang="ar"] .plan-foot{direction:rtl}
+html[lang="ar"] .foot-news{text-align:left}
+html[lang="ar"] .news-form{direction:rtl}

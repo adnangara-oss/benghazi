@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BENGHAZI — بنغازي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Caveat:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@200;300;400;500&family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+<div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+<!-- Preloader -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <span class="preloader-mark">BENGHAZI</span>
+    <div class="preloader-bar"><span id="preloaderBar"></span></div>
+    <span class="preloader-count" id="preloaderCount">00</span>
+  </div>
+  <div class="preloader-curtain" id="preloaderCurtain"></div>
+</div>
+
+<!-- Nav -->
+<header class="nav" id="nav">
+  <a href="#top" class="nav-logo">BENGHAZI
+    <svg class="nav-flag" viewBox="0 0 30 20" aria-hidden="true">
+      <rect width="30" height="20" fill="#239e46"/>
+      <rect width="30" height="15" fill="#000"/>
+      <rect width="30" height="5" fill="#e70013"/>
+      <g fill="#fff">
+        <path d="M17.6 10a3.1 3.1 0 1 1-1.9-5.7 3.9 3.9 0 1 0 0 7.4A3.1 3.1 0 0 1 17.6 10Z"/>
+        <path d="m20.6 7.3.5 1.5h1.6l-1.3 1 .5 1.5-1.3-.9-1.3.9.5-1.5-1.3-1h1.6z"/>
+      </g>
+    </svg>
+  </a>
+
+  <nav class="nav-links" aria-label="القائمة الرئيسية">
+    <a href="#layers"  data-nav-link="layers"  data-ar="الطبقات."  data-en="Layers.">الطبقات.</a>
+    <a href="#story"   data-nav-link="story"   data-ar="المدينة."  data-en="The City.">المدينة.</a>
+    <a href="#travel"  data-nav-link="travel"  data-ar="الدخول."   data-en="Ways In.">الدخول.</a>
+    <a href="#voices"  data-nav-link="voices"  data-ar="الدفاتر."  data-en="Notebooks.">الدفاتر.</a>
+    <a href="#plan"    data-nav-link="plan"    data-ar="شاركنا."   data-en="Contribute.">شاركنا.</a>
+  </nav>
+
+  <div class="nav-right">
+    <a href="#destinations" class="nav-explore" data-magnetic>
+      <span class="nav-explore-mark" aria-hidden="true"></span>
+      <span data-ar="استكشف المعالم" data-en="Explore Landmarks">استكشف المعالم</span>
+    </a>
+    <button class="lang-toggle" id="langToggle" type="button" aria-label="تبديل اللغة">
+      <span class="lang-opt is-on" data-lang="ar">ع</span>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <span class="lang-opt" data-lang="en">EN</span>
+    </button>
+  </div>
+
+  <button class="nav-burger" id="navBurger" aria-label="فتح القائمة" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<main id="top">
+
+  <!-- ============ 01 HERO ============ -->
+  <section class="hero" id="hero">
+    <div class="hero-slides" id="heroSlides">
+      <div class="hero-slide is-active" style="background-image:url('assets/hero/lighthouse.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/cathedral.jpg')"></div>
+      <div class="hero-slide" style="background-image:url('assets/hero/stadium.jpg')"></div>
+    </div>
+    <div class="hero-overlay"></div>
+
+    <div class="hero-reveal" id="heroReveal" aria-hidden="true">
+      <div class="hero-slides" id="heroSlidesClone">
+        <div class="hero-slide is-active" style="background-image:url('assets/hero/lighthouse.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('assets/hero/cathedral.jpg')"></div>
+        <div class="hero-slide" style="background-image:url('assets/hero/stadium.jpg')"></div>
+      </div>
+    </div>
+    <div class="hero-frame" id="heroFrame" aria-hidden="true"></div>
+
+    <div class="hero-head">
+      <h1 class="hero-title hero-title-left">
+        <span class="ghost" aria-hidden="true" data-ghost>
+          <span data-ar="بنغازي" data-en="Benghazi">بنغازي</span>
+          <span data-ar="تاريخٌ طويل" data-en="A Long History">تاريخٌ طويل</span>
+        </span>
+        <span class="line" data-split data-ar="بنغازي" data-en="Benghazi">بنغازي</span>
+        <span class="line" data-split data-ar="تاريخٌ طويل" data-en="A Long History">تاريخٌ طويل</span>
+      </h1>
+      <h1 class="hero-title hero-title-right">
+        <span class="ghost" aria-hidden="true" data-ghost>
+          <span data-ar="ومعالمُ" data-en="and Landmarks">ومعالمُ</span>
+          <span data-ar="تستحقّ الزيارة" data-en="Worth Visiting">تستحقّ الزيارة</span>
+        </span>
+        <span class="line" data-split data-ar="ومعالمُ" data-en="and Landmarks">ومعالمُ</span>
+        <span class="line" data-split data-ar="تستحقّ الزيارة" data-en="Worth Visiting">تستحقّ الزيارة</span>
+      </h1>
+    </div>
+
+    <span class="hero-index" aria-hidden="true">01</span>
+
+    <ul class="hero-destlist" aria-label="المعالم">
+      <li class="is-head" data-ar="كل المعالم" data-en="All Landmarks">كل المعالم</li>
+      <li data-ar="المدينة القديمة" data-en="Old City">المدينة القديمة</li>
+      <li data-ar="الكورنيش" data-en="The Corniche">الكورنيش</li>
+      <li data-ar="البحيرة" data-en="The Lagoon">البحيرة</li>
+      <li data-ar="برنيق" data-en="Berenice">برنيق</li>
+    </ul>
+
+    <div class="hero-dots" id="heroDots" role="tablist" aria-label="شرائح الغلاف"></div>
+  </section>
+
+  <!-- ============ 02 TICKER ============ -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" id="marqueeTrack">
+      <span data-ar="المدينة القديمة — سوق الجريد — جامع العتيق — الكاتدرائية — الكورنيش — البحيرة — برنيق — سيدي خريبيش — المنارة — قصر البركة —&nbsp;"
+            data-en="OLD CITY — SOUQ AL-JREED — ATIQ MOSQUE — THE CATHEDRAL — THE CORNICHE — THE LAGOON — BERENICE — SIDI KHRIBISH — THE LIGHTHOUSE — QASR AL-BERKA —&nbsp;">المدينة القديمة — سوق الجريد — جامع العتيق — الكاتدرائية — الكورنيش — البحيرة — برنيق — سيدي خريبيش — المنارة — قصر البركة —&nbsp;</span>
+      <span data-ar="المدينة القديمة — سوق الجريد — جامع العتيق — الكاتدرائية — الكورنيش — البحيرة — برنيق — سيدي خريبيش — المنارة — قصر البركة —&nbsp;"
+            data-en="OLD CITY — SOUQ AL-JREED — ATIQ MOSQUE — THE CATHEDRAL — THE CORNICHE — THE LAGOON — BERENICE — SIDI KHRIBISH — THE LIGHTHOUSE — QASR AL-BERKA —&nbsp;">المدينة القديمة — سوق الجريد — جامع العتيق — الكاتدرائية — الكورنيش — البحيرة — برنيق — سيدي خريبيش — المنارة — قصر البركة —&nbsp;</span>
+    </div>
+  </div>
+
+  <!-- ============ 03 LANDMARKS ============ -->
+  <section class="destinations" id="destinations">
+    <ul class="dest-side dest-side-left" aria-hidden="true">
+      <li data-ar="المدينة القديمة" data-en="Old City">المدينة القديمة</li>
+      <li data-ar="الكورنيش" data-en="Corniche">الكورنيش</li>
+      <li data-ar="البحيرة" data-en="The Lagoon">البحيرة</li>
+      <li data-ar="برنيق" data-en="Berenice">برنيق</li>
+    </ul>
+    <ul class="dest-side dest-side-right" aria-hidden="true">
+      <li data-ar="المنارة" data-en="Lighthouse">المنارة</li>
+      <li data-ar="جليانة" data-en="Julyana">جليانة</li>
+      <li data-ar="سيدي خريبيش" data-en="Sidi Khribish">سيدي خريبيش</li>
+      <li data-ar="قصر البركة" data-en="Qasr al-Berka">قصر البركة</li>
+    </ul>
+
+    <h2 class="collage-title">
+      <span data-split data-ar="معالم" data-en="Landmarks of">معالم</span>
+      <span data-split data-ar="بنغازي" data-en="Benghazi">بنغازي</span>
+    </h2>
+
+    <div class="collage" id="collage" role="list">
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-1.2deg;--d:1.02;--ty:41px;--tx:-1px" data-full="assets/landmarks/full/old-city-courtyard.jpg">
+        <img src="assets/landmarks/card/old-city-courtyard.jpg" alt="المدينة القديمة" loading="lazy">
+        <p data-ar="المدينة القديمة" data-en="Old City">المدينة القديمة</p>
+        <span class="polaroid-meta" data-ar="أقواسٌ ونافورةٌ داخل البيت" data-en="Arches and a fountain inside the house">أقواسٌ ونافورةٌ داخل البيت</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:0.2deg;--d:1.03;--ty:-30px;--tx:0px" data-full="assets/landmarks/full/atiq-mosque.jpg">
+        <img src="assets/landmarks/card/atiq-mosque.jpg" alt="جامع العتيق" loading="lazy">
+        <p data-ar="جامع العتيق" data-en="Atiq Mosque">جامع العتيق</p>
+        <span class="polaroid-meta" data-ar="أقدم مآذن المدينة" data-en="The city's oldest minaret">أقدم مآذن المدينة</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:3.4deg;--d:1.05;--ty:-39px;--tx:-7px" data-full="assets/landmarks/full/cathedral.jpg">
+        <img src="assets/landmarks/card/cathedral.jpg" alt="كاتدرائية بنغازي" loading="lazy">
+        <p data-ar="كاتدرائية بنغازي" data-en="The Cathedral">كاتدرائية بنغازي</p>
+        <span class="polaroid-meta" data-ar="قبّتان على البحر" data-en="Twin domes on the sea">قبّتان على البحر</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-10.6deg;--d:1.06;--ty:19px;--tx:-16px" data-full="assets/landmarks/full/lighthouse.jpg">
+        <img src="assets/landmarks/card/lighthouse.jpg" alt="منارة بنغازي" loading="lazy">
+        <p data-ar="منارة بنغازي" data-en="The Lighthouse">منارة بنغازي</p>
+        <span class="polaroid-meta" data-ar="أوّل معلمٍ يراه القادم إلى المدينة" data-en="The first landmark an arriving visitor sees">أوّل معلمٍ يراه القادم إلى المدينة</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:12.5deg;--d:1.08;--ty:15px;--tx:4px" data-full="assets/landmarks/full/corniche.jpg">
+        <img src="assets/landmarks/card/corniche.jpg" alt="الكورنيش" loading="lazy">
+        <p data-ar="الكورنيش" data-en="The Corniche">الكورنيش</p>
+        <span class="polaroid-meta" data-ar="واجهة المدينة كما كانت" data-en="The city's face, as it once was">واجهة المدينة كما كانت</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-8.9deg;--d:0.95;--ty:3px;--tx:-16px" data-full="assets/landmarks/full/lagoon.jpg">
+        <img src="assets/landmarks/card/lagoon.jpg" alt="البحيرة" loading="lazy">
+        <p data-ar="البحيرة" data-en="The Lagoon">البحيرة</p>
+        <span class="polaroid-meta" data-ar="بحيرةٌ مالحة داخل المدينة" data-en="A saltwater lagoon within the city">بحيرةٌ مالحة داخل المدينة</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-8.1deg;--d:0.98;--ty:-45px;--tx:-1px" data-full="assets/landmarks/full/freedom-square-1964.jpg">
+        <img src="assets/landmarks/card/freedom-square-1964.jpg" alt="ميدان الحرية" loading="lazy">
+        <p data-ar="ميدان الحرية" data-en="Freedom Square">ميدان الحرية</p>
+        <span class="polaroid-meta" data-ar="ميدان الشجرة كما كان، ١٩٦٤" data-en="Tree Square, as it stood in 1964">ميدان الشجرة كما كان، ١٩٦٤</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-1.5deg;--d:1.06;--ty:2px;--tx:5px" data-full="assets/landmarks/full/omar-mukhtar-street.jpg">
+        <img src="assets/landmarks/card/omar-mukhtar-street.jpg" alt="شارع عمر المختار" loading="lazy">
+        <p data-ar="شارع عمر المختار" data-en="Omar Mukhtar St.">شارع عمر المختار</p>
+        <span class="polaroid-meta" data-ar="الشارع الرئيسي في المدينة" data-en="The city's main street">الشارع الرئيسي في المدينة</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-0.0deg;--d:1.04;--ty:-4px;--tx:-8px" data-full="assets/landmarks/full/sidi-khribish.jpg">
+        <img src="assets/landmarks/card/sidi-khribish.jpg" alt="سيدي خريبيش" loading="lazy">
+        <p data-ar="سيدي خريبيش" data-en="Sidi Khribish">سيدي خريبيش</p>
+        <span class="polaroid-meta" data-ar="طبقاتٌ أثرية على الشاطئ" data-en="Archaeological layers on the shore">طبقاتٌ أثرية على الشاطئ</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:12.9deg;--d:1.08;--ty:33px;--tx:7px" data-full="assets/landmarks/full/municipality-square.jpg">
+        <img src="assets/landmarks/card/municipality-square.jpg" alt="ميدان البلدية" loading="lazy">
+        <p data-ar="ميدان البلدية" data-en="Municipality Square">ميدان البلدية</p>
+        <span class="polaroid-meta" data-ar="مسجدٌ يقع وسط الميدان" data-en="A mosque located in the middle of the square">مسجدٌ يقع وسط الميدان</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-4.8deg;--d:0.98;--ty:-20px;--tx:-15px" data-full="assets/landmarks/full/hosh-al-kikhia.jpg">
+        <img src="assets/landmarks/card/hosh-al-kikhia.jpg" alt="حوش الككهية" loading="lazy">
+        <p data-ar="حوش الككهية" data-en="Hosh al-Kikhia">حوش الككهية</p>
+        <span class="polaroid-meta" data-ar="بيت تراثي محفوظ" data-en="A preserved heritage house">بيت تراثي محفوظ</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:6.9deg;--d:1.0;--ty:33px;--tx:-4px" data-full="assets/landmarks/full/omar-mukhtar-mausoleum.jpg">
+        <img src="assets/landmarks/card/omar-mukhtar-mausoleum.jpg" alt="ضريح عمر المختار" loading="lazy">
+        <p data-ar="ضريح عمر المختار" data-en="Omar Mukhtar Mausoleum">ضريح عمر المختار</p>
+        <span class="polaroid-meta" data-ar="رمزٌ لمقاومة الاحتلال الإيطالي" data-en="A symbol of resistance to Italian occupation">رمزٌ لمقاومة الاحتلال الإيطالي</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:11.9deg;--d:1.06;--ty:-48px;--tx:-10px" data-full="assets/landmarks/full/benghazi-port.jpg">
+        <img src="assets/landmarks/card/benghazi-port.jpg" alt="ميناء بنغازي" loading="lazy">
+        <p data-ar="ميناء بنغازي" data-en="Port of Benghazi">ميناء بنغازي</p>
+        <span class="polaroid-meta" data-ar="الحاويات تصل من جديد" data-en="Container ships return">الحاويات تصل من جديد</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:10.7deg;--d:1.01;--ty:46px;--tx:-4px" data-full="assets/landmarks/full/university-of-benghazi.jpg">
+        <img src="assets/landmarks/card/university-of-benghazi.jpg" alt="جامعة بنغازي" loading="lazy">
+        <p data-ar="جامعة بنغازي" data-en="University of Benghazi">جامعة بنغازي</p>
+        <span class="polaroid-meta" data-ar="الطريق يقود إلى قاريونس" data-en="The road leads to Garyounis">الطريق يقود إلى قاريونس</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-11.1deg;--d:1.03;--ty:27px;--tx:-8px" data-full="assets/landmarks/full/new-benghazi-roundabout.jpg">
+        <img src="assets/landmarks/card/new-benghazi-roundabout.jpg" alt="دوّار من الأعلى" loading="lazy">
+        <p data-ar="دوّار من الأعلى" data-en="A Roundabout from Above">دوّار من الأعلى</p>
+        <span class="polaroid-meta" data-ar="شكلٌ هندسي يظهر بوضوح من الجوّ" data-en="A geometric shape clearly visible from the air">شكلٌ هندسي يظهر بوضوح من الجوّ</span>
+      </article>
+      <article class="polaroid" role="listitem" tabindex="0" style="--r:-10.7deg;--d:0.99;--ty:45px;--tx:9px" data-full="assets/landmarks/full/coast-aerial.jpg">
+        <img src="assets/landmarks/card/coast-aerial.jpg" alt="الساحل من الأعلى" loading="lazy">
+        <p data-ar="الساحل من الأعلى" data-en="The Coast from Above">الساحل من الأعلى</p>
+        <span class="polaroid-meta" data-ar="الكاتدرائية والبحيرة والكورنيش معًا" data-en="Cathedral, lagoon, and corniche together">الكاتدرائية والبحيرة والكورنيش معًا</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ 04 NUMBERS ============ -->
+  <section class="stats" aria-label="Benghazi in numbers">
+    <div class="stat" data-reveal="fade">
+      <span class="stat-num" data-count="25" data-suffix="+">0</span>
+      <span class="stat-label" data-ar="قرنًا من التاريخ" data-en="Centuries of History">قرنًا من التاريخ</span>
+    </div>
+    <div class="stat" data-reveal="fade">
+      <span class="stat-num" data-count="5">0</span>
+      <span class="stat-label" data-ar="طبقات حضارية" data-en="Civilizational Layers">طبقات حضارية</span>
+    </div>
+    <div class="stat" data-reveal="fade">
+      <span class="stat-num" data-count="16">0</span>
+      <span class="stat-label" data-ar="لقطةً توثّق المدينة" data-en="Photographs Documenting the City">لقطةً توثّق المدينة</span>
+    </div>
+    <div class="stat" data-reveal="fade">
+      <span class="stat-num" data-count="1">0</span>
+      <span class="stat-label" data-ar="بحرٌ واحدٌ يحيط بها" data-en="One Sea Surrounds It">بحرٌ واحدٌ يحيط بها</span>
+    </div>
+  </section>
+
+  <!-- ============ A  LAYERS (new) ============ -->
+  <section class="layers" id="layers">
+    <div class="layers-head">
+      <span class="eyebrow" data-reveal="fade" data-ar="أ — الطبقات" data-en="A — Layers">أ — الطبقات</span>
+      <h2 data-reveal="up" data-ar="خمس مراحل تاريخية لمدينة واحدة" data-en="Five Historical Stages of One City">خمس مراحل تاريخية لمدينة واحدة</h2>
+      <p class="script-line" data-reveal="fade" data-ar="اقرأها من الأسفل إلى الأعلى." data-en="Read it from the bottom up.">اقرأها من الأسفل إلى الأعلى.</p>
+    </div>
+
+    <ol class="layer-list">
+      <li class="layer" data-reveal="left">
+        <span class="layer-era" data-ar="القرن ٦ ق.م" data-en="6th c. BC">القرن ٦ ق.م</span>
+        <span class="layer-name" data-ar="يوسبيريدس" data-en="Euesperides">يوسبيريدس</span>
+        <span class="layer-note" data-ar="مستوطنةٌ إغريقية عند حافة الخليج." data-en="A Greek settlement at the gulf's rim.">مستوطنةٌ إغريقية عند حافة الخليج.</span>
+      </li>
+      <li class="layer" data-reveal="left">
+        <span class="layer-era" data-ar="القرن ٣ ق.م" data-en="3rd c. BC">القرن ٣ ق.م</span>
+        <span class="layer-name" data-ar="برنيق" data-en="Berenice">برنيق</span>
+        <span class="layer-note" data-ar="انتقلت المدينة إلى موقعها الجديد، وسُمّيت باسم ملكة." data-en="The city moved to its new site and was named after a queen.">انتقلت المدينة إلى موقعها الجديد، وسُمّيت باسم ملكة.</span>
+      </li>
+      <li class="layer" data-reveal="left">
+        <span class="layer-era" data-ar="العهد العثماني" data-en="Ottoman Era">العهد العثماني</span>
+        <span class="layer-name" data-ar="الأسواق والجامع" data-en="Souqs and Mosque">الأسواق والجامع</span>
+        <span class="layer-note" data-ar="أخذت المدينة القديمة شكلها الحالي." data-en="The old city took on its current shape.">أخذت المدينة القديمة شكلها الحالي.</span>
+      </li>
+      <li class="layer" data-reveal="left">
+        <span class="layer-era" data-ar="العهد الإيطالي" data-en="Italian Era">العهد الإيطالي</span>
+        <span class="layer-name" data-ar="القناطر والقبّتان" data-en="Arcades and Domes">القناطر والقبّتان</span>
+        <span class="layer-note" data-ar="ميادينُ فسيحة، وشرفاتٌ، وواجهاتٌ بيضاء." data-en="Wide piazzas, balconies, and white façades.">ميادينُ فسيحة، وشرفاتٌ، وواجهاتٌ بيضاء.</span>
+      </li>
+      <li class="layer" data-reveal="left">
+        <span class="layer-era" data-ar="اليوم" data-en="Today">اليوم</span>
+        <span class="layer-name" data-ar="بنغازي" data-en="Benghazi">بنغازي</span>
+        <span class="layer-note" data-ar="بدأت مرحلة إعادة الإعمار." data-en="The reconstruction phase began.">بدأت مرحلة إعادة الإعمار.</span>
+      </li>
+    </ol>
+  </section>
+
+  <!-- ============ 05 THE CITY ============ -->
+  <section class="story" id="story">
+    <div class="story-bg" id="storyBg" style="background-image:url('assets/travel/night-corniche.jpg')"></div>
+    <div class="story-veil"></div>
+
+    <h2 class="story-title">
+      <span data-split data-ar="موقع" data-en="Benghazi's">موقع</span>
+      <span data-split data-ar="بنغازي" data-en="Location">بنغازي</span>
+    </h2>
+
+    <div class="story-stage">
+      <p class="story-aside story-aside-left" data-reveal="left"
+         data-ar="تقع بنغازي في الجزء الشرقي من ليبيا، على ساحل البحر الأبيض المتوسط."
+         data-en="Benghazi is in eastern Libya, on the Mediterranean coast.">تقع بنغازي في الجزء الشرقي من ليبيا، على ساحل البحر الأبيض المتوسط.</p>
+
+      <p class="story-aside story-aside-right" data-reveal="right"
+         data-ar="هي ثاني أكبر مدن ليبيا بعد العاصمة طرابلس."
+         data-en="It's Libya's second-largest city after the capital, Tripoli.">هي ثاني أكبر مدن ليبيا بعد العاصمة طرابلس.</p>
+    </div>
+
+    <div class="story-map-wrap" data-reveal="fade">
+      <iframe class="story-map" title="خريطة تُظهر موقع بنغازي داخل ليبيا"
+              src="https://www.openstreetmap.org/export/embed.html?bbox=9.0%2C19.0%2C26.0%2C34.0&amp;layer=mapnik&amp;marker=32.1167%2C20.0667"
+              loading="lazy"></iframe>
+      <span class="story-map-caption" data-ar="الدبوس الأخضر يحدّد موقع بنغازي، على الساحل الشرقي لليبيا المطلّ على البحر الأبيض المتوسط."
+            data-en="The green pin marks Benghazi, on Libya's eastern coast along the Mediterranean Sea.">الدبوس الأخضر يحدّد موقع بنغازي، على الساحل الشرقي لليبيا المطلّ على البحر الأبيض المتوسط.</span>
+    </div>
+
+    <p class="story-script" data-reveal="fade"
+       data-ar="المدينة تستحقّ وقتًا للتجوّل والاستكشاف."
+       data-en="The city deserves time to walk around and explore.">المدينة تستحقّ وقتًا للتجوّل والاستكشاف.</p>
+  </section>
+
+  <!-- ============ 06 WAYS IN ============ -->
+  <section class="travel" id="travel">
+    <div class="travel-head">
+      <h2 data-split data-ar="كيف تتجوّل في بنغازي" data-en="How to Get Around Benghazi">كيف تتجوّل في بنغازي</h2>
+      <p class="script-line" data-reveal="fade" data-ar="أربع طرقٍ لاستكشاف المدينة." data-en="Four ways to explore the city.">أربع طرقٍ لاستكشاف المدينة.</p>
+    </div>
+
+    <div class="travel-panels">
+      <div class="travel-panel" data-reveal="panel" style="background-image:url('assets/travel/old-city-walk.jpg')">
+        <span class="travel-panel-no">01</span>
+        <div class="travel-panel-label">
+          <em data-ar="سيرًا في المدينة القديمة" data-en="On Foot, Old City">سيرًا في المدينة القديمة</em>
+          <span data-ar="الأزقّة القديمة تُكتشف مشيًا فقط." data-en="The old alleys can only be seen on foot.">الأزقّة القديمة تُكتشف مشيًا فقط.</span>
+        </div>
+      </div>
+      <div class="travel-panel" data-reveal="panel" style="background-image:url('assets/travel/corniche-lighthouse.jpg')">
+        <span class="travel-panel-no">02</span>
+        <div class="travel-panel-label">
+          <em data-ar="على طول الكورنيش" data-en="Along the Corniche">على طول الكورنيش</em>
+          <span data-ar="من المنارة إلى البحيرة." data-en="From the lighthouse to the lagoon.">من المنارة إلى البحيرة.</span>
+        </div>
+      </div>
+      <div class="travel-panel" data-reveal="panel" style="background-image:url('assets/travel/underground-layers.jpg')">
+        <span class="travel-panel-no">03</span>
+        <div class="travel-panel-label">
+          <em data-ar="طبقاتٌ تحت الأرض" data-en="Layers Underground">طبقاتٌ تحت الأرض</em>
+          <span data-ar="آثار برنيق ويوسبيريدس تقع تحت المدينة الحالية." data-en="The ruins of Berenice and Euesperides lie beneath the current city.">آثار برنيق ويوسبيريدس تقع تحت المدينة الحالية.</span>
+        </div>
+      </div>
+      <div class="travel-panel" data-reveal="panel" style="background-image:url('assets/travel/italian-era.jpg')">
+        <span class="travel-panel-no">04</span>
+        <div class="travel-panel-label">
+          <em data-ar="ما تركه الإيطاليون" data-en="What Italy Left">ما تركه الإيطاليون</em>
+          <span data-ar="قناطرُ، وقبابٌ، وشرفاتٌ حجرية." data-en="Arcades, domes, and stone balconies.">قناطرُ، وقبابٌ، وشرفاتٌ حجرية.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 07 NOTEBOOKS ============ -->
+  <section class="voices" id="voices">
+    <span class="eyebrow" data-reveal="fade" data-ar="٠٧ — الدفاتر" data-en="07 — Notebooks">٠٧ — الدفاتر</span>
+    <h2 class="voices-title" data-reveal="up" data-ar="من دفاتر المدينة" data-en="From the City's Notebooks">من دفاتر المدينة</h2>
+
+    <div class="quotes" id="quotes">
+      <blockquote class="quote is-active">
+        <p data-ar="«سكان بنغازي يعتبرون البحر جزءًا أساسيًا من حياتهم اليومية.»"
+           data-en="&ldquo;Benghazi's residents consider the sea a basic part of their daily life.&rdquo;">«سكان بنغازي يعتبرون البحر جزءًا أساسيًا من حياتهم اليومية.»</p>
+      </blockquote>
+      <blockquote class="quote">
+        <p data-ar="«أزقّة المدينة القديمة متشابكة، ويسهل سؤال أحد السكان عن الطريق.»"
+           data-en="&ldquo;The old city's alleys are winding, and it's easy to ask a resident for directions.&rdquo;">«أزقّة المدينة القديمة متشابكة، ويسهل سؤال أحد السكان عن الطريق.»</p>
+      </blockquote>
+      <blockquote class="quote">
+        <p data-ar="«كل زيارةٍ لبنغازي تكشف تفصيلًا جديدًا لم تلاحظه من قبل.»"
+           data-en="&ldquo;Every visit to Benghazi reveals a new detail you hadn't noticed before.&rdquo;">«كل زيارةٍ لبنغازي تكشف تفصيلًا جديدًا لم تلاحظه من قبل.»</p>
+      </blockquote>
+      <blockquote class="quote">
+        <p data-ar="«المباني القديمة توفّر ظلًا مريحًا في أيام الصيف الحارة.»"
+           data-en="&ldquo;The old buildings provide comfortable shade on hot summer days.&rdquo;">«المباني القديمة توفّر ظلًا مريحًا في أيام الصيف الحارة.»</p>
+      </blockquote>
+    </div>
+
+    <div class="quotes-ui">
+      <button class="slider-btn ghost" id="quotePrev" data-magnetic aria-label="السابق">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
+      </button>
+      <span class="quotes-count" id="quotesCount">01 / 04</span>
+      <button class="slider-btn ghost" id="quoteNext" data-magnetic aria-label="التالي">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ 08 CONTRIBUTE ============ -->
+  <section class="plan" id="plan">
+    <div class="plan-bg" style="background-image:url('assets/travel/benghazi-footer.jpg')"></div>
+
+    <h2 class="plan-title" data-reveal="up" data-ar="أضف معلمًا إلى الدليل" data-en="Add a Landmark to the Guide">أضف معلمًا إلى الدليل</h2>
+
+    <div class="note" data-reveal="note">
+      <span class="note-pin" aria-hidden="true"></span>
+      <form class="note-form" id="planForm">
+        <p class="note-intro" data-ar="هل تعرف مكانًا يستحقّ حضورًا هنا؟ شاركنا به."
+           data-en="Know a place that deserves to be here? Share it with us.">هل تعرف مكانًا يستحقّ حضورًا هنا؟ شاركنا به.</p>
+        <label>
+          <span data-ar="الاسم" data-en="Name">الاسم</span>
+          <input type="text" name="name" data-ar-ph="اسمك" data-en-ph="Your name" placeholder="اسمك" required>
+        </label>
+        <label>
+          <span data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</span>
+          <input type="email" name="email" data-ar-ph="you@example.com" data-en-ph="you@example.com" placeholder="you@example.com" required>
+        </label>
+        <label>
+          <span data-ar="المعلم المقترَح" data-en="Suggested landmark">المعلم المقترَح</span>
+          <input type="text" name="landmark" data-ar-ph="اسم المكان وأين يقع" data-en-ph="Its name and where it is" placeholder="اسم المكان وأين يقع">
+        </label>
+        <button type="submit" data-magnetic data-ar="إرسال" data-en="Send">إرسال</button>
+      </form>
+      <p class="note-success" id="noteSuccess" hidden data-ar="وصلنا اقتراحك، شكرًا لمساهمتك." data-en="Your suggestion has arrived — thank you for contributing.">وصلنا اقتراحك، شكرًا لمساهمتك.</p>
+    </div>
+
+    <div class="plan-foot">
+      <div class="foot-col">
+        <h3 data-ar="المعالم" data-en="Landmarks">المعالم</h3>
+        <a href="#destinations" data-ar="المدينة القديمة" data-en="Old City">المدينة القديمة</a>
+        <a href="#destinations" data-ar="الكورنيش" data-en="The Corniche">الكورنيش</a>
+        <a href="#destinations" data-ar="البحيرة" data-en="The Lagoon">البحيرة</a>
+        <a href="#destinations" data-ar="برنيق" data-en="Berenice">برنيق</a>
+      </div>
+      <div class="foot-col">
+        <h3 data-ar="الأقسام" data-en="Sections">الأقسام</h3>
+        <a href="#layers" data-ar="طبقات المدينة" data-en="City Layers">طبقات المدينة</a>
+        <a href="#story" data-ar="المدينة" data-en="The City">المدينة</a>
+        <a href="#travel" data-ar="طرق الدخول" data-en="Ways In">طرق الدخول</a>
+        <a href="#voices" data-ar="الدفاتر" data-en="Notebooks">الدفاتر</a>
+      </div>
+      <div class="foot-col">
+        <h3 data-ar="عن المشروع" data-en="About">عن المشروع</h3>
+        <a href="#plan" data-ar="الفكرة" data-en="The Idea">الفكرة</a>
+        <a href="#plan" data-ar="المصادر" data-en="Sources">المصادر</a>
+        <a href="#plan" data-ar="تواصل" data-en="Contact">تواصل</a>
+      </div>
+      <div class="foot-news">
+        <p data-ar="صورٌ وحكاياتٌ من بنغازي، تصلك مرّةً كل شهر."
+           data-en="Photos and stories from Benghazi, once a month in your inbox.">صورٌ وحكاياتٌ من بنغازي، تصلك مرّةً كل شهر.</p>
+        <form class="news-form" id="newsForm">
+          <input type="email" name="email" data-ar-ph="بريدك الإلكتروني" data-en-ph="Your email" placeholder="بريدك الإلكتروني" aria-label="بريدك الإلكتروني" required>
+          <button type="submit" aria-label="اشتراك">→</button>
+        </form>
+        <span class="news-done" id="newsDone" hidden data-ar="تم الاشتراك. أهلًا بك." data-en="You're subscribed. Welcome.">تم الاشتراك. أهلًا بك.</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <a class="footer-social" href="#" data-magnetic>
+    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+      <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.2"/>
+      <circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/>
+    </svg>
+    <span>@BENGHAZI</span>
+  </a>
+  <p data-ar="© 2026 بنغازي. جميع الحقوق محفوظة." data-en="© 2026 Benghazi. All rights reserved.">© 2026 بنغازي. جميع الحقوق محفوظة.</p>
+  <p class="footer-credit" data-ar="برمجة الموقع: عدنان الهوني" data-en="Site development: Adnan Al-Houni">برمجة الموقع: عدنان الهوني</p>
+</footer>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true" aria-label="عرض المعلم">
+  <button class="lightbox-close" id="lightboxClose" data-magnetic aria-label="إغلاق">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19"/></svg>
+  </button>
+  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" data-magnetic aria-label="السابق">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M15 4 7 12l8 8"/></svg>
+  </button>
+  <button class="lightbox-arrow lightbox-next" id="lightboxNext" data-magnetic aria-label="التالي">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M9 4l8 8-8 8"/></svg>
+  </button>
+  <figure class="lightbox-figure">
+    <img class="lightbox-photo" id="lightboxImg" alt="">
+    <figcaption><span id="lightboxTitle"></span><span class="lightbox-count" id="lightboxCount"></span></figcaption>
+  </figure>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+{
+  "_readme": "برومت لنانو بنانا لتوحيد صور معالم بنغازي.",
+
+  "_تحذير": [
+    "جُرِّب هذا البرومت فغيّر ملامح المعالم. السبب ليس في صياغته:",
+    "نانو بنانا يعيد توليد كل بكسل من الصفر، ولا يملك وضع «حسّن فقط».",
+    "لا يوجد برومت يمنع الانحراف — يقلّله فقط.",
+    "",
+    "لتحسين الجودة دون أي تغيير في الملامح استعمل:",
+    "    python normalize.py raw/ out/ --enhance",
+    "قِيس على صور اختبار: التباين 34.2 -> 49.3 والميل اللوني 1.267 -> 1.042،",
+    "وعدد حواف المبنى لم يتغيّر. هذا تحويل حسابي لا يستطيع اختراع بنية.",
+    "",
+    "أبقِ هذا الملف لحالة واحدة: معلم لا تملك صورته إطلاقًا، وتنشر الناتج",
+    "موسومًا بوضوح أنه تصوّر تخيّلي لا وثيقة."
+  ],
+
+  "task": "normalize_existing_photograph",
+  "intent": "Prepare a real photograph of a real Benghazi landmark for use on a heritage website. This is a formatting and grading job, not a creative one.",
+
+  "source_photo": {
+    "file": "REPLACE_ME.jpg",
+    "landmark_name_ar": "كاتدرائية بنغازي",
+    "landmark_name_en": "Benghazi Cathedral",
+    "note": "صورة فوتوغرافية حقيقية لمبنى قائم. ليست مرجعاً فنياً."
+  },
+
+  "must_not": [
+    "Do not invent, add, remove, or reshape any architectural element.",
+    "Do not change the number of windows, arches, domes, columns, balconies, or floors.",
+    "Do not repair, restore, or clean damage, cracks, missing masonry, or bullet marks. The damage is part of the record.",
+    "Do not add or remove people, vehicles, birds, boats, cables, or antennas.",
+    "Do not redraw, translate, straighten, or invent signage or Arabic lettering.",
+    "Do not change the time of day, season, weather, or the position of the sun.",
+    "Do not hallucinate detail into areas that are blurred, dark, or out of focus. Leave them soft.",
+    "Do not replace the sky.",
+    "Do not change the perspective, the lens character, or the vanishing points.",
+    "Do not stylise, illustrate, paint, or apply any artistic filter."
+  ],
+
+  "allowed_operations": [
+    "Crop to the requested aspect ratio, keeping the landmark's full structure inside the frame.",
+    "Resize to the requested pixel dimensions.",
+    "Gentle exposure and contrast correction.",
+    "Gentle white-balance correction toward neutral.",
+    "Mild noise reduction that does not smear texture.",
+    "Straighten the horizon by up to 2 degrees if it is visibly tilted."
+  ],
+
+  "grade": {
+    "target_look": "Muted editorial documentary. Warm Mediterranean stone, deep shadows, restrained saturation.",
+    "saturation": "reduce by roughly 10 to 15 percent from the source",
+    "shadows": "keep deep, do not lift into grey",
+    "highlights": "protect, do not clip",
+    "warmth": "very slightly warm, matching limestone and afternoon light",
+    "sharpening": "minimal, output-size only",
+    "grain": "do not add — the site applies its own film grain in CSS"
+  },
+
+  "output_slots": {
+    "_pick_one": "اختر slot واحداً لكل تصدير، وكرّر العملية بنفس الصورة لو احتجت أكثر من مقاس.",
+
+    "card": {
+      "used_for": "بطاقة البولارويد في كولاج المعالم — 19 صورة",
+      "aspect_ratio": "4:5",
+      "pixels": "1000x1250",
+      "framing": "Landmark centred, full structure visible, generous headroom. It is displayed small, so it must read at a glance.",
+      "format": "JPEG quality 82",
+      "filename": "cards/{slug}.jpg"
+    },
+
+    "full": {
+      "used_for": "العرض الكامل عند الضغط على البطاقة",
+      "aspect_ratio": "4:5",
+      "pixels": "1600x2000",
+      "framing": "Same crop as the card so the two match when the lightbox opens.",
+      "format": "JPEG quality 88",
+      "filename": "full/{slug}.jpg"
+    },
+
+    "hero": {
+      "used_for": "شرائح الغلاف — 4 صور فقط",
+      "aspect_ratio": "16:10",
+      "pixels": "2560x1600",
+      "framing": "Wide establishing view with real foreground-to-background depth. The reveal window in the hero works on contrast, so flat, evenly-lit frames read as dead.",
+      "format": "JPEG quality 88",
+      "filename": "hero/{slug}.jpg"
+    },
+
+    "panel": {
+      "used_for": "ألواح «كيف تُقرأ المدينة» — 4 صور",
+      "aspect_ratio": "2:3",
+      "pixels": "1200x1800",
+      "framing": "Tall vertical. Keep the lower third calm — a caption sits over it.",
+      "format": "JPEG quality 86",
+      "filename": "panels/{slug}.jpg"
+    },
+
+    "background": {
+      "used_for": "خلفيات قسم «المدينة» وقسم «شاركنا»",
+      "aspect_ratio": "16:10",
+      "pixels": "2400x1500",
+      "framing": "Wide and calm. Text sits on top, so avoid busy centres.",
+      "format": "JPEG quality 84",
+      "filename": "backgrounds/{slug}.jpg"
+    },
+
+    "paper": {
+      "used_for": "الصورة داخل الكولاج الورقي",
+      "aspect_ratio": "3:4",
+      "pixels": "900x1200",
+      "framing": "Prefer a frame with a person in it — it gives the collage scale and life.",
+      "format": "JPEG quality 86",
+      "filename": "paper/{slug}.jpg"
+    }
+  },
+
+  "if_crop_would_cut_the_landmark": "Do not extend, outpaint, or generate new edges. Return the image at the closest safe crop and say which slot it could not satisfy.",
+
+  "verification_before_delivery": [
+    "Compare against the source: every architectural element must match one to one.",
+    "Confirm no damage was repaired.",
+    "Confirm all lettering is unchanged.",
+    "Confirm exact output pixel dimensions."
+  ]
+}
